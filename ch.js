@@ -25,3 +25,34 @@ let p = 2, w ;
 w = p++, p;
 
 console.log(p,w);
+
+const arrr = [1,2,3];
+const newArr = arrr.forEach(x=> console.log(x));
+
+const arr2 = {
+  n: 'hi',
+  t: 'my' ,
+  s: 'name',
+  length : 3
+};
+
+function foo(a,b,c){
+  console.log(arguments[0],arguments[1]);
+}
+
+foo('ewr','twte')
+console.log(arr2['n'])
+
+function foo1(a,b,c){
+  Array.prototype.forEach.call(arguments, (arg) => {
+    console.log(arg);
+  });
+}
+foo1('a','b','c');
+
+let zt = 0;
+let yt = 234;
+
+zt = zt || yt;
+
+console.log(zt)
