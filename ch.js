@@ -56,3 +56,8 @@ let yt = 234;
 zt = zt || yt;
 
 console.log(zt)
+
+
+const a = null;
+const b = a ?? 'hi';
+console.log(b);
