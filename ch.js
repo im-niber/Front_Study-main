@@ -61,3 +61,33 @@ console.log(zt)
 const a = null;
 const b = a ?? 'hi';
 console.log(b);
+
+// const obj = {
+//   lang: `js`,
+//   greeting : () => {
+//     return `hi ${this.lang}`;
+//   }
+// }
+// console.log(obj.greeting())
+
+// const obj1 = {
+//   name : 'js',
+//   greeting() {
+//     setTimeout((function timer() {
+//       console.log(this.name);
+//     }).bind(this),1000);
+//   }
+// }
+
+// obj1.greeting();
+
+const obj2 = {
+  name : 'js',
+  greeting() {
+    setTimeout(() =>{
+      console.log(this.name);
+    },1000);
+  }
+}
+
+obj2.greeting();
