@@ -91,3 +91,46 @@ const obj2 = {
 }
 
 obj2.greeting();
+
+
+
+function Vehicle() {
+  console.log("Hi");
+}
+
+const vehicle = new Vehicle();
+console.log(Vehicle.prototype)
+console.log(vehicle.constructor)
+
+function Car(type) {
+  this.type = type;
+}
+
+Vehicle.prototype.run = function () {console.log("1");}
+
+vehicle.myProperty = 'mypro';
+// Car.prototype = vehicle;
+ //console.log(Car.prototype.myProperty);
+
+function inherit(Parent,child){
+  function F() {};
+  F.prototype = Parent.prototype;
+  child.prototype = new F();
+  //child.prototype = Parent.prototype;
+  child.prototype.constructor = child;
+}
+Car.prototype = Vehicle.prototype;
+Car.prototype.constructor = Car;
+//inherit(Vehicle, Car);
+console.log(Car.prototype.prototype);
+
+function foo7() {
+  let a = 1;
+  function bar() {
+    console.log(a); // 1
+  }
+  return bar;
+}
+
+const baz = foo7();
+baz(); // 1
