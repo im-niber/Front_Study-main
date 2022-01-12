@@ -5,26 +5,28 @@
 1. 점수가 높은 선언이 우선함 !
 2. 점수가 같으면, 가장 마지막에 해석된 선언이 우선함 !
 
-~~~
-html
+
+```html
 
 <div
  id = "color_yellow"
  class = "color_green"
- style = "color: orange;"> // 1000점
+ style = "color: orange;"> <!--1000점 --> 
  Hello world!
 </div>
+```
 
-css
-div {color : red !important;} // 제일 높은 점수.
-#colr_yellow {color : yellow;} // 100점 
+```css
+
+div {color : red !important;} /*제일 높은 점수.*/
+#colr_yellow {color : yellow;} /* 100점 */
 .color_green { color : green;} // 10점
 div {color : blue;} // 1점
 * {color : darkblue;} // 0점
-body {color : violet;} // 상속 x, 점수로 별도로 계산 x
+body {color : violet;}  // 상속 x, 점수로 별도로 계산 x
 
-// 따라서 red로 색상이 적용이 된다.
-~~~
+/* 따라서 red로 색상이 적용이 된다.*/
+```
 
 css 우선순위의 점수를 계산하는 것은 **명시도** 라고 함
 
