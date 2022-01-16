@@ -310,7 +310,41 @@ font-family : 글꼴1, "글꼴2", ... , 글꼴계열(필수작성!);
 - none(default) : 이미지 x
 - url("경로") : 이미지 경로
 
-### background-
+### background-repeat
+
+요소의 배경 이미지 반복
+
+- repeat(default) : 이미지를 수직, 수평 반복
+- repeat-x : 이미지 수평 반복
+- repeat-y : 이미지 수직 반복
+- no-repeat : 반복 x
+
+### background-position
+
+요소의 배경이미지 위치
+
+- 0% 0%(default) : 0% ~ 100% 사이의 값
+- 방향 : top, bottom, left, right, center 방향
+- 단위 : px, em, rem 등 단위로 지정(x축 y축)
+
+### background-size
+
+요소의 배경 이미지 크기
+
+- auto(default) : 이미지 실제 크기
+- 단위 : px, em, rem 등 단위로 지정
+- cover : 비율을 유지, 요소의 더 넓은 너비에 맞춤
+- contain : 비율을 유지, 요소의 더 짧은 너비에 맞춤
+
+### background-attachment
+
+요소의 배경 이미지 스크롤 특성
+
+- scroll(default) : 이미지가 요소를 따라서 같이 스크롤
+- fixed : 이미지가 뷰포트에 고정, 스크롤 x
+> local : 요소 내 스크롤시 이미지가 같이 스크롤
+
+
 
 
 
