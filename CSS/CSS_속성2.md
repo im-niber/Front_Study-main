@@ -176,4 +176,54 @@ Flex item의 공간 배분 전 기본 너비
 - 0s(default) : 대기시간 없음
 - 시간 : 대기시간(s)을 지정
 
+---
 
+## 변환
+
+### transform
+
+요소의 변환 효과
+
+- transform : 변환함수1 변환함수2 변환함수3 ... ;
+- transform : 원근법 이동 크기 회전 기울임;
+
+### 2D 변환 함수
+
+- translate(x,y) : 이동(x축, y축)
+- translateX(x) : 이동(x축)
+- translateY(y) : 이동(y축)
+- scale(x,y) : 크기(x축, y축)
+- rotate(degree) : 회전(각도)
+- skewX(x) : 기울임(x축)
+- skewY(y) : 기울임(y축)
+
+### 3D 변환 함수
+
+- rotateX(x) : 회전(x축)
+- rotateY(y) : 회전(y축)
+- perspective(n) : 원근법(거리, 제일 앞에 작성해야 한다)
+
+### perspective 속성
+
+하위 요소를 관찰하는 원근 거리를 지정 
+
+- 단위 : px 등 단위로 지정
+
+perspective 속성과 함수 차이점
+
+**속성**
+- 표기법 : perspective : 600px; 
+- 적용 대상 : 관찰 대상의 부모
+- 기준점 설정 : perspective-origin
+
+**함수**
+- 표기법 : transform: perspective(600px);
+- 적용 대상: 관찰 대상
+- 기준점 설정 : transform-origin
+
+### backface-visibility
+
+3D 변환으로 회전된 요소의 뒷면 숨김 여부
+
+- visible(default) : 뒷면 보임
+- hidden : 뒷면 숨김
