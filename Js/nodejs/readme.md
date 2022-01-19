@@ -12,5 +12,5 @@ node version manager, nodejs의 버젼을 관리해주며 협업시에 중요하
 
 NPM(Node Package Manager)은 전 세계 개발자들이 만든 다양한 기능(패키지, 모듈)들을 관리
 
-![npm](./img/npm.JPG)
+![npm](Js/img/npm.JPG)
 
