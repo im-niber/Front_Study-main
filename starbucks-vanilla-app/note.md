@@ -16,4 +16,25 @@ img {
 먼저 부모 요소에 `position : relative` 를 선언해줘야한다, 그 후에 자식 요소에 `position : absolute` 를 해주고 `top: 0; bottom: 0;, margin : auto 0` 을 넣어주면 부모 요소를 기준으로 수직 정가운데 정렬이 된다.
 
 - `position : absolute` : 위치 상의 부모 요소를 기준으로 함 
-- `margin : auto 0` : 2개의 값을 띄어쓰기로 구분한다면 처음 값은 위 아래의 여백, 다음 값은 좌우 여백을 지정함
+- `margin : auto 0` : 2개의 값을 띄어쓰기로 구분한다면 처음 값은 상하 여백, 다음 값은 좌우 여백을 지정함, auto로 자동으로 계산을 하려면 높이 값도 명시가 되어 있어야하고, top bottom의 시작을 0 으로 명시해주면 가운데에 배치를 해줌 
+
+
+### link 주소의 준비가 되어 있지 않은 경우
+
+밑의 방식으로 관리를 하면 된다.
+
+```html
+<a href = "javascript:void(0)">link</a>
+```
+
+- `javascript:void(0)` : js에 아무 기능이 동작하지 않겠다 라고 선언하는 것 
+
+---
+
+#### position : absolute, fixed의 특징
+
+- 자동으로 요소가 block 요소로 바뀐다
+
+#### ::before 가상 선택자
+
+content 속성과 같이 쓰이며, 요소 앞에 content를 추가 해준다
