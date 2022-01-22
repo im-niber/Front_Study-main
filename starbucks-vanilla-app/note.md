@@ -1,4 +1,4 @@
-## 강의를 들으며 몰랐던 부분을 적는 곳 !
+## 강의 내용 공부
 
 ### logo 이미지 밑에 여백의 이유 ?
 
@@ -41,10 +41,65 @@ content 속성과 같이 쓰이며, 요소 앞에 content를 추가 해준다
 
 ### top, bottom 속성 사용을 안하는 경우
 
-top, bottom 속성을 사용하지 않아 수직 위치 값이 없다면, 요소의 원래 위치를 그대로 사용한다 만약 `position : absolute`를 사용했다면, 위치상 부모 요소를 기준으로 하므로 화면의 뷰포트 좌우 끝까지 늘어날 수 없게 된다. 
+top, bottom 속성을 사용하지 않아 수직 위치 값이 없다면, 요소의 원래 위치를 그대로 사용한다 만약 `position : absolute`, `position : fixed`를 사용했다면, 위치상 부모 요소를 기준으로 하므로 화면의 뷰포트 좌우 끝까지 늘어날 수 없게 된다. 
 
 ### 자식 선택자와 자손 선택자
 
 - 자식 선택자 : 계층구조에서 바로 아래 오는 자식요소만을 선택함 아들만 선택한다고 보면 된다 표기법은 `>` 로 구분함
 
 - 자손 선택자 : 계층구조에서 하위에 오는 모든 자손을 선택한다, 공백문자로 구분
+
+### BEM(Block Element Modifier)
+
+HTML 클래스 속성의 작명법
+
+- 요소__일부분 : Underscore(Lodash) 기호로 요소의 일부분을 표시
+- 요소--상태 : Hyphen(Dash) 기호로 요소의 상태를 표시
+
+예시
+```html
+<div class = "container__name"></div>
+<div class = "btn btn--primary"></div>
+``` 
+
+### 스크롤에 기능을 추가하는 경우 
+
+`lodash cdn`을 검색하여 scroll 이벤트에 기능을 추가해줄 js를 들고온다
+애니메이션 효과를 주기위해 `gsap cdn` 도 같이 들고온다 
+
+스크롤의 위치를 조건으로 받아서 요소를 사라지게 하는 예시
+```js
+//window는 하나의 창이라고 보면 된다
+//throttle로 과부하를 막아줌
+window.addEventListener('scroll', _.throttle(function (){  
+  if (window.scrollY > 500){
+    // 배치 숨기기
+    //gsap.to(요소, 지속시간, 옵션);
+    gsap.to(badgeEl, .6, {
+      display: 'none',
+      opacity : 0
+    });
+  }
+  else {
+    gsap.to(badgeEl, .6, {
+      display : 'block',
+      opacity : 1
+    });
+  }
+  // 300 0.3초단위 
+},300));
+```
+
+opacity 속성처럼 값을 숫자로 입력하는 속성들은, 전환효과(transition 속성이나 GASP 라이브러리 등)를 통해 요소의 전/후 상태를 중간 숫자의 값으로 자연스럽게 만들어 줄 수 있지만, display 속성처럼 값이 숫자가 아닌 속성은 전/후 상태의 중간값이 존재하지 않기 때문에, 자연스러운 전환 효과를 적용할 수 없다
+
+### 순차적으로 요소를 나타내게 하는 경우
+
+```js
+const fadeEls = document.querySelectorAll('.visual .fade-in');
+fadeEls.forEach(function(fadeEl, index){
+  gsap.to(fadeEl, 1, {
+    delay : (index + 1) + .7,
+    opacity : 1
+  });
+});
+```
