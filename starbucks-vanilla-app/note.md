@@ -103,3 +103,17 @@ fadeEls.forEach(function(fadeEl, index){
   });
 });
 ```
+
+### inner 요소 안에 높이 값으로 부모요소도 같이 설정하는 방법
+
+```css
+.notice .notice-line {
+  position: relative;
+
+}
+
+.notice .notice-line .inner {
+  height: 62px;
+}
+```
+부모요소인 notice-line이 높이 값이 없으므로 auto로 설정이 되어 세로너비가 줄어들려는 성질을 가지지만 inner에 높이값을 추가해주어서 이 높이값만큼만 줄어들기 때문에 부모요소도 같은 높이 값을 가진다
