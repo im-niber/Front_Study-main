@@ -117,3 +117,28 @@ fadeEls.forEach(function(fadeEl, index){
 }
 ```
 부모요소인 notice-line이 높이 값이 없으므로 auto로 설정이 되어 세로너비가 줄어들려는 성질을 가지지만 inner에 높이값을 추가해주어서 이 높이값만큼만 줄어들기 때문에 부모요소도 같은 높이 값을 가진다
+
+### 요소를 가운데에 배치하는 방법
+
+```css
+.notice .promotion .swiper-container{
+  width: calc(819px * 3 + 20px);
+  text-align: center;
+  position: absolute;
+  left : 50%;
+  margin-left: -1238.5px;
+}
+```
+
+결론은 요소의 가로너비의 절반을 `margin-left` 에 음수값으로 넣어주면 된다. 먼저 `left:50%`는 부모요소의 왼쪽에서 50% 부터 시작한다는 뜻인데, `margin-left`에 가로너비의 절반만큼 땡겨주면 위치가 정 가운데에 배치가 된다
+
+### 다중 선택자
+
+```css
+.notice .promotion .swiper-prev,
+.notice .promotion .swiper-next{
+...
+}
+```
+
+다중 선택자를 사용할 때 한줄을 띄워주는게 가독성이 좋다
