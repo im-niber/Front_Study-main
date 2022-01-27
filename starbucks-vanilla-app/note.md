@@ -142,3 +142,51 @@ fadeEls.forEach(function(fadeEl, index){
 ```
 
 다중 선택자를 사용할 때 한줄을 띄워주는게 가독성이 좋다
+
+### 부모요소와 자식요소를 비율에 맞게 보여주는 방법
+
+```css
+.container {
+  width : 500px;
+  background-color:royalblue;
+}
+.container .item {
+  width: 100%;
+  height: 0;
+  padding-top: 50%;
+}
+```
+`height`가 auto라면 줄어드는 성질에 이해 아무것도 화면에 보이지 않게 되지만,자식 요소에서 `padding-top:50%`를 설정 한다면 부모 요소의 `width`의 절반을 받아서 세로가 1 가로가 2인 비율의 로얄블루색 block이 화면에 보여지게된다.
+
+> 16:9의 비율은 100% : 56.25% 이다
+
+### 패럴렉스(Parallax) 효과 적용방법
+
+패럴렉스란 시차라는 뜻으로, 멀이있는 물체는 천천히, 가까이 있는 물체는 빨리 움직이는 현상을 의미한다. 이 현상을 이용하면 입체감, 실제감을 높여 보다 인상적인 디자인이 가능하다
+
+페이지를 스크롤할 때 뒷 배경을 고정을 시켜 위 효과를 줄 수 있다.
+
+```css
+.container{
+  background-attachment : fixed;
+}
+```
+### img 요소 가운데 정렬
+
+브라우저는 이미지 출력하는 가로 너비를 알고있고, `img` 요소에 `display:block`이 적용이 되어 있다면, `width`속성이 없어도 가능하다
+```css
+.logo {
+  margin : 30px auto 0;
+}
+```
+### 페이지 상단으로 이동
+
+```js
+toTopEl.addEventListener('click',function(){
+  gsap.to(window, .7, {
+    scrollTo: 0
+  })
+})
+```
+
+`scrollTo cdn` 플러그인을 미리 받아와서 속성 값으로 사용해주면 스크롤의 위치를 0으로 두어 최상단으로 이동이 된다

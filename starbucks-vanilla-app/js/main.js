@@ -16,6 +16,7 @@ searchInputEl.addEventListener('blur', function(){
 });
 
 const badgeEl = document.querySelector('header .badges');
+const toTopEl = document.querySelector('#to-top');
 
 //window는 하나의 창이라고 보면 된다
 window.addEventListener('scroll', _.throttle(function (){  
@@ -26,15 +27,30 @@ window.addEventListener('scroll', _.throttle(function (){
       display: 'none',
       opacity : 0
     });
+    // 버튼 보이기 
+    gsap.to(toTopEl, .2,{
+      x: 0
+    })
   }
   else {
     gsap.to(badgeEl, .6, {
       display : 'block',
       opacity : 1
     });
+    // 버튼 숨기기
+    gsap.to(toTopEl, .2,{
+      x: 100
+    })
   }
   // 300 0.3초단위 
 },300));
+
+
+toTopEl.addEventListener('click',function(){
+  gsap.to(window, .7, {
+    scrollTo: 0
+  })
+})
 
 
 //순차적으로 요소가 나오게 하는 경우
@@ -72,6 +88,17 @@ new Swiper('.promotion .swiper',{
   }
 });
 
+new Swiper('.awards .swiper', {
+  loop:true,
+  autoplay: true,
+  spaceBetween: 30,
+  slidesPerView : 5,
+  navigation : {
+    prevEl: '.awards .swiper-prev',
+    nextEl: '.awards .swiper-next'
+  }
+})
+
 
 const promotionEl = document.querySelector('.promotion');
 const promotionToggleBtn = document.querySelector('.toggle-promotion');
@@ -86,3 +113,37 @@ promotionToggleBtn.addEventListener('click',function() {
     promotionEl.classList.remove('hide');
   }
 })
+
+function floatingObject(selector, delay, size) {
+  gsap.to(selector, random(1.5,2.5), {
+    y: size,
+    repeat : -1,
+    yoyo: true,
+    ease : Power1.easeInOut,
+    delay : random(0,delay)
+  })
+}
+
+function random(min,max) {
+  // '.toFixed()'를 통해 반환된 문자 데이터를
+  // '.parseFloat()'을 통해 소수점을 가지는 숫자 데이터로 변환
+  return parseFloat((Math.random() * (max- min)+min).toFixed(2))
+}
+
+floatingObject('.floating1',1,15);
+floatingObject('.floating2',.5,15);
+floatingObject('.floating3',1.5,25);
+
+const spyEls = document.querySelectorAll('section.scroll-spy');
+spyEls.forEach(function(spyEl) {
+  new ScrollMagic
+    .Scene({
+      triggerElement : spyEl, // 보여짐 여부를 감시할 요소를 지정
+      triggerHook : .8,
+    })
+    .setClassToggle(spyEl, 'show')
+    .addTo(new ScrollMagic.Controller());
+})
+
+const thisYear = document.querySelector('.this-year')
+thisYear.textContent = new Date().getFullYear();
