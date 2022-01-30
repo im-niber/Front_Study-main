@@ -299,5 +299,65 @@ import _ from 'lodash'
 const copyUser = _.cloneDeep(user)
 ```
 
+## import / export / default
 
+```js
+import _ from 'lodash' // From 'node_modules'
+import getType from './getType' // getType.js
+import getRandom from './getRandom' // getRandom.js
+```
+Js에서는 Module.js(이름은 중요 x)라는 파일이 있고 Default export, Named export 나가는 통로를 가지고 있다
 
+### Default export
+
+Default로 지정하면 이름을 만들 필요가 없고 하나만 내보낼 수 있다
+```js
+// export default function getRandom
+export default function () {
+  return Math.floor(Math.random() * 10)
+}
+```
+### Named export
+
+Default가 없다면 이름을 지정해줘야하고, import 시에 구조분해할당을 사용해야한다, 여러개를 내보낼 수 있다
+```js
+//main.js
+import { random } from './getRandom'
+// getRandom.js
+export function getRandom() {}
+export const user;
+```
+> import시 이름을 바꾸고싶다면 `user as heropy` 로 바꿔서 사용 가능
+
+## lodash 사용 
+
+### Method
+
+```js
+import _ from 'lodash'
+_.uniqBy(usersC, 'userId') // 두번째 인자의 속성값을 기준으로 중복된 값을 삭제해줌 고유값을 반환
+_.unionBy(usersA, usersB, 'userId') // A,B의 데이터를 세번째 인자의 속성값을 기준으로 고유값으로 합칠 수 있다.
+_.find(users, {name : 'Amy'}) // users에서 값을 찾음 객체데이터 반환 
+_.findIndex(users, {name : 'Amy'}) // users에서 값을 찾아 인덱스 반환 
+_.remove(users, {name : 'Amy'}) // users에서 해당 값 삭제
+```
+
+### JSON(JavaScript Object Notation)
+
+JS의 데이터를 표현하는 포맷(속성-값 쌍으로 이루어짐)
+
+```js
+import myData from './nodejs/myData.json'
+
+const str = JSON.stringify(user) // user의 객체데이터를 str형태로 반환 
+const obj = JSON.parse(str) // str형 데이터를 객체 데이터로 변환 해서 반환
+```
+
+### storage
+
+```js
+Window.localStorage // Document 출처의 Storage 객체에 접근이 가능 저장한 데이터는 브라우저 세션간에 공유가 된다
+localStorage.setItem('myCat', 'Tom') // 키-밸류로 저장, 키, 밸류에는 문자열 데이터로 저장을 해줘야한다. 위에 stringify 사용 !
+const cat = localStorage.getItem('myCat') // 읽는 방법 
+localStorage.removeItem('myCat') // 제거 
+```
