@@ -5,15 +5,6 @@ let c = false;
 console.log(typeof b);
 console.log(typeof c);
 console.log(Symbol("foo"));
-// const aNumber : number = maybe;
-if (maybe === true) {
-    const aBoolean = maybe;
-    // const aString: string = maybe;
-}
-if (typeof maybe === "string") {
-    const aString = maybe;
-    //const aBoolean : boolean = maybe;
-}
 function error(message) {
     throw new Error(message);
 }
@@ -57,4 +48,35 @@ let sup2 = sub2;
 // sub3 타입은 sup3 타입의 서브 타입이다.
 let sub3 = [1, 2];
 let sup3 = sub3;
-//sub3 = sup3 ; // error
+function hello1(person) {
+    console.log(`안녕하세요! ${person.name} 입니다`);
+}
+const p1 = {
+    name: "mark",
+    age: 39
+};
+hello1(p1);
+class Persons {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+const p11 = new Persons("Mark", 39);
+console.log(p11); // Person{name : "mark", age: 39};
+class AbstarctPerson {
+    constructor() {
+        this._name = "Mark";
+    }
+}
+class Person extends AbstarctPerson {
+    setName(name) {
+        this._name = name;
+    }
+    printName() {
+        console.log(this._name);
+    }
+}
+const p = new Person();
+p.setName("aile");
+p.printName();

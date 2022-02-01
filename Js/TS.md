@@ -50,7 +50,7 @@ Compiled | Interpreted
 
 위 처럼 설정을 하면, `npm run build` 명령어를 사용해서 컴파일 할 수 있다
 
-## Fist Type Annotation
+## Type Annotation
 
 JS와 차별되는 기능, 타입을 표시해서 할당 가능 
 ```js
@@ -305,7 +305,7 @@ getPersonById('id-aaaaaa') // error
 
 ## 타입 호환성(Type Compatibility) 
 
-### 서브타입 (1)
+### 서브타입
 
 ```ts
 // sub1 타입은 sup1 타입의 서브 타입이다.
@@ -324,7 +324,146 @@ let sup3 : number[] = sub3;
 sub3 = sup3 ; // error
 ```
 
-### 서브타입(2)
+1. 같거나 서브 타입인 경우, 할당이 가능하다 => **공변**
 ```ts
-
+//primitive type
+let sub: string = '';
+let sup: string | number = sub7;
+//object-각각의 프로퍼티가 대응하는 프로퍼티와 같거나 서브타입이어야한다
+let sub : {a:string; b:number} = {a:'', b:1};
+let sup : {a :string|number; b: number} = sub;
+// array - object와 마찬가지
+let sub : Array<{a:string; b: number}> = [{a:'', b: 1}];
+let sup : Array<{a:string|number; b: number}> = sub
 ```
+2. 함수의 매개변수 타입만 같거나 슈퍼타입인 경우, 할당이 가능하다 => **반병**
+```ts
+class Person{}
+class Developer extends Person{
+  coding(){}
+}
+class StartupDeveloper extends Developer{
+  burning(){}
+}
+function tellme(f:(d:Developer)=> Developer) {}
+// Developer -> Developer에다가 Developer->Developer를 할당하는 경우
+tellme(function dToD(d:Developer):Developer{
+  return new Developer();
+})
+// Developer -> Developer에다가 Person -> Developer를 할당 하는 경우
+tellme(function pToD(d:Person): Developer{
+  return new Developer();
+})
+// Developer -> Developer에다가 StartupDeveloper->Developer를 할당 하는 경우
+tellme(function sToD(d:StartupDeveloper):Developer{
+  return new Developer();
+}) 
+// error 스타트업디벨로퍼는 디벨로퍼의 하위 타입이다
+```
+
+> strictFunctionTypes 옵션을 사용하면, 함수를 할당시 함수의 매개변수 타입이 다르거나 슈퍼타입인 경우가 아닌경우 에러를 통해 경고함
+
+### 타입 별칭(Type Alias, 타입 별명)
+
+- Interface랑 비슷해 보임
+- Primitive, Union Type, Tuple, Function 에 사용하거나, 직접 작성해야하는 타입을 다른 이름을 지정할 수 있다
+- 만들어진 타입의 refer 로 사용하는 것이지 만드는것은 아님
+
+```ts
+// Aliasing Primitive
+// String을 MyStringType으로 부른다는 뜻
+type MyStringType = string;
+// Aliasing Union Type
+type StringOrNumber = string | number;
+// Aliasing Tuple
+type PersonTuple = [string, number];
+// Aliasing Function
+type EatType = (food : string) =>void;
+```
+
+## TypeScript Compiler
+
+### Compilation Context
+
+컴파일러가 어떤 파일과 어떤 방식으로 컴파일할지 규명 해둔 맥락이다
+
+### tsconfig schema 
+
+tsconfig의 구조를 뜻함
+
+#### compileOnSave
+세이브하면 컴파일을 할지 정하는 옵션 값은 true / false (default false) vs2015 with typescript 1.8.4 이상이면 가능함
+
+#### extends
+tsconfig 파일도 상속을 받을 수 있고, 속성값에는 경로를 입력하면 된다 TypeScript 2.1 New Spec이다
+
+#### files, include, exclude
+- 셋 다 설정이 없으면 전부 컴파일
+- files
+  - 상대 혹은 절대경로의 리스트 배열
+  - exclude 보다 우선순위가 높다
+- include, exclude
+  - glob 패턴(마치 .gitignore)
+  - include
+    - exclude 보다 우선순위 낮음
+    - *같은걸 사용하면, .ts/.tsx/.d.ts 만 include(allowJS)
+  - exclude
+    - 설정 하지 않으면 4가지(node_modules, bower_components, jspm_packages, outDir)를 default로 제외 
+    - outDir은 항상 제외함 (include에 있어도)
+
+#### compileOptions
+
+##### typeRoots, types
+
+- TypeScript 2.0 부터 사용 가능해진 내장 type definition 시스템
+- 설정을 안하면, node_modules/@types 라는 모든 경로 찾아서 사용
+- typeRoots 를 사용하면, 배열 안에 들어있는 경로들 아래서만 가져옴
+- types를 사용하면, 배열 안의 모듈 혹은 ./node_modueles/@types/ 안의 모듈 이름에서 찾아옴, 빈 배열을 넣으면 이 시스템을 이용하지 않겠다는 것
+- typeRoots와 types를 같이 사용하지 x
+
+##### target, lib
+
+- target
+  - 빌드의 결과물을 어떤 버전으로 할것이냐
+  - 지정을 안하면 es3 이다
+- lib
+  - 기본 type definition 라이브러리를 어떤 것을 사용할 것이냐
+  - 지정하지 않았을 때
+    - target이 `es3`이고, 디폴트로 lib.d.ts 를 사용한다
+    - target이 `es5`이면, 디폴트로 dom, es5, scripthost를 사용한다
+    - target이 `es6`이면, 디폴트로 dom, es6, dom.iterable, scripthost를 사용한다
+  - lib를 지정하면 그 lib 배열로만 라이브러리를 사용한다
+
+##### outDir, outFile, rootDir
+
+- outFile : 모듈들을 하나의 파일로 만들어준다 
+- outDir : 파일들의 결과물을 내보낼 경로를 지정함
+- rootDir : 루트 ts파일의 경로를 변경할 수 있음
+
+##### strict
+
+엄격하게 타입을 체크하는 옵션
+
+- noImplicitAny : 명시적이지 않게 any 타입을 사용하여, 표현식과 선언에 사용하면, 에러 발생
+  - TS가 추론을 실패한 경우, any 가 맞으면, any라고 지정해라
+  - 아무것도 쓰지 않으면 에러 발생
+  - 이 오류를 해결하면, any라고 지정되어 있지 않은 경우는 any가 아님
+- noImplicitThis : 명시적이지 않게 any 타입을 사용하여, this 표현식에 사용시 에러 발생
+  - 첫 매개변수 자리에 this를 놓고, this에 타입을 명시 안하면 오류 발생
+  - JS 에는 매개변수에 this를 넣으면 이미 예약된 키워드라 SynstaxError
+  - call/apply/bind 와 같이 this를 대체하여 함수 콜을 하는 용도로 쓰임
+  - this를 any로 명시적으로 지정하는 것은 합리적인편
+- strictNullChecks : null 및 undefined 값이 모든 유형의 도메인에 속하지 않으며, 그 자신을 타입으로 가지거나, any 일경우에만 할당 가능 한가지 예외는 undefined에 void 할당 가능
+  - 이 옵션을 적용하지 않으면, 모든 타입은 null,undefined 값을 다 가질수 있다
+  - 적용을 하여, null, undefined 값을 가지려면 union type을 이용해서 직접 명시해야한다 
+- strictfunctionTypes : 함수 타입에 대한 bivariant 매개 변수 검사를 비활성화한다 
+  - 반환타입은 공변적(covariant)
+  - 인자 타입은 반공변적(contravariant)
+  - TS에서는 인자 타입은 공변적이면서, 반공변적인게 문제
+  - 그 부분을 해결하는 옵션이다.
+- strictPropertyInitialization : 정의되지 않은 클래스 속성이 생성자에서 초기화 되었는지 확인
+- strictBindCallApply : bind, call, apply에 대한 더 엄격한 검사 수행
+  - Function의 내장 함수인 bind/call/apply 를 사용할 때 엄격하게 체크하도록 하는 옵션
+  - bind 는 해당 함수 안에서 사용할 this와 인자를 설정하는 역할을 하고 call 과 apply는 this와 인자를 설정 후 실행까지 한다
+  - call은 함수의 인자를 여러 인자의 나열로 넣어서 사용하고, apply는 모든 인자를 배열 하나로 넣어서 사용한다
+- alwaysStrict : 각 소스파일에 대해 JS의 strict mode로 코드를 분석하고 "엄격하게 사용" 을 해제한다

@@ -6,21 +6,6 @@ console.log(typeof b)
 console.log(typeof c)
 console.log(Symbol("foo"))
 
-declare const maybe: unknown;
-
-// const aNumber : number = maybe;
-
-if(maybe === true) {
-  const aBoolean : boolean = maybe;
-
-  // const aString: string = maybe;
-}
-
-if(typeof maybe === "string") {
-  const aString : string = maybe;
-  //const aBoolean : boolean = maybe;
-}
-
 function error(message : string ) : never {
   throw new Error(message);
 }
@@ -86,4 +71,48 @@ let sup2: object = sub2;
 let sub3: [number, number] = [1,2];
 let sup3 : number[] = sub3;
 //sub3 = sup3 ; // error
+
+
+interface Person1 {
+  name : string,
+  age: number
+}
+
+function hello1(person: Person1) : void {
+  console.log(`안녕하세요! ${person.name} 입니다`)
+}
+const p1: Person1 = {
+  name : "mark",
+  age: 39
+};
+hello1(p1)
+
+interface Person2{
+  name : string;
+  age? : number;
+}
+
+class Persons{
+  public constructor(public name : string, public age: number) {}
+}
+const p11: Persons = new Persons("Mark", 39);
+console.log(p11) // Person{name : "mark", age: 39};
+
+abstract class AbstarctPerson {
+  protected _name: string = "Mark";
+  abstract setName(name: string): void;
+  abstract printName(): void;
+}
+
+class Person extends AbstarctPerson{
+  setName(name: string): void {
+    this._name = name;
+  }
+  printName(): void {
+    console.log(this._name);
+  }
+}
+const p = new Person();
+p.setName("aile");
+p.printName();
 
