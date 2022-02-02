@@ -331,3 +331,108 @@ class Person extends AbstarctPerson{
 const p = new Person();
 p.setName("tom");
 ```
+
+---
+
+## Generics
+
+### Generics, Any 다른점 
+```ts
+function hello(message: any): any{
+  return message;
+}
+// 컴파일에는 문제가 없지만 실행시에 문제가 생긴다
+console.log(hello("Mark").length);
+console.log(hello(39).length); // undefined 문제가 생김
+
+// 추론을 할 수 있게끔 제네릭타입을 사용하는 모습
+function helloGeneric<T>(message: T){
+  return message;
+}
+console.log(helloGeneric('Mark').length) // string으로 추론이 된다
+console.log(helloGeneric(39)) // 숫자형이므로 length 호출하려면 미리 에러를 보여줌
+console.log(helloGeneric(true))
+```
+### Generics Basic
+```ts
+function helloBasic<T>(message: T): T {
+  return message;
+}
+helloBasic<string>("Mark") // 타입을 지정해서 호출하는 방식
+helloBasic(36); // 추론을 이용하여 호출하는 방식
+```
+### Generics Array & Tuple
+```ts
+function helloArray<T>(message: T[]): T{
+  return message[0];
+}
+helloArray(["Hello","world"]);
+helloArray(["Hello",39]); // union 타입으로 추론이 된다
+
+function helloTuple<T, K>(message: [T,K]):T{
+  return message[0];
+}
+helloTuple(["hello","world"]); // 배열과 다를건 없다
+helloTuple(["Hello",39])); // 0 번째 요소는 string으로 추론이 되므로 length 등 string 메소드 사용이 가능하다
+```
+### Generics Function
+```ts
+type HelloFunctionGeneric1 = <T>(message: T) => T;
+const helloFunction1:HelloFunctionGeneric1 = <T>(message: T) : T => {
+  return message;
+}
+interface HelloFunctionGeneric2{
+  <T>(message: T): T;
+}
+const helloFunction2: HelloFunctionGeneric2  = <T>(message: T): T => {
+  return message;
+}
+```
+### Generics Class
+```ts
+// 클래스 선언시에 미리 적어둬야 한다
+class Person<T, K> {
+  private _name: T;
+  private age: K;
+
+  constructor(name: T, age: K) {
+    this._name = name;
+    this._age = age;
+  }
+}
+```
+### Generics with extends
+```ts
+// T는 string과 number만 가능하다는 의미
+class PersonExtends<T extends string | number>{
+  private _name: T;
+  constructor(name: T) {
+    this._name = name;
+  }
+}
+```
+### Keyof & type lookup system
+```ts
+interface IPerson{
+  name: string;
+  age: number;
+}
+const person: IPerson = {
+  name: "mark",
+  age: 39,
+};
+
+// keyof 사용법 
+type Keys = keyof IPerson;
+const keys: Keys = "age" or "name" //두 가지만 선택이 가능하다
+
+// IPerson[keyof IPerson] => IPerson["name"| "age"] 
+// => IPerson["name"] | IPerson["age"] => string | number
+function getProp<T, K extends keyof T>(obj: T, key: K): T[K]{
+  return obj[key];
+}
+function setProp<T, K extends keyof T>(obj: T, key: K, value: T[K]): void {
+  obj[key] = value;
+}
+```
+

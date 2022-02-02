@@ -116,3 +116,33 @@ const p = new Person();
 p.setName("aile");
 p.printName();
 
+function helloBasic<T>(message: T): T {
+  return message;
+}
+
+function helloTuple<T, K>(message: [T,K]):T{
+  return message[0];
+}
+//helloTuple(["hello","world"]);
+
+interface StringArray {
+  [index: string]: number;
+}
+let arr: StringArray = {
+  "Hi" : 3,
+}
+console.log(typeof arr['Hi'])
+
+interface IPerson2{
+  name: string;
+  age: number;
+}
+const person: IPerson2 = {
+  name: "mark",
+  age: 39,
+};
+
+type Keys = keyof IPerson2;
+const keyss: Keys ="name"
+
+console.log(person[keyss])

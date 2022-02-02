@@ -80,3 +80,19 @@ class Person extends AbstarctPerson {
 const p = new Person();
 p.setName("aile");
 p.printName();
+function helloBasic(message) {
+    return message;
+}
+function helloTuple(message) {
+    return message[0];
+}
+let arr = {
+    "Hi": 3,
+};
+console.log(typeof arr['Hi']);
+const person = {
+    name: "mark",
+    age: 39,
+};
+const keyss = "name";
+console.log(person[keyss]);
