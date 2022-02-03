@@ -104,18 +104,6 @@ abstract class AbstarctPerson {
   abstract printName(): void;
 }
 
-class Person extends AbstarctPerson{
-  setName(name: string): void {
-    this._name = name;
-  }
-  printName(): void {
-    console.log(this._name);
-  }
-}
-const p = new Person();
-p.setName("aile");
-p.printName();
-
 function helloBasic<T>(message: T): T {
   return message;
 }
@@ -146,3 +134,25 @@ type Keys = keyof IPerson2;
 const keyss: Keys ="name"
 
 console.log(person[keyss])
+
+class Person{}
+class Developer extends Person{
+  coding(){}
+}
+class StartupDeveloper extends Developer{
+  burning(){}
+}
+function tellme(f:(d:Developer)=> Developer) {}
+// Developer -> Developer에다가 Developer->Developer를 할당하는 경우
+tellme(function dToD(d:Developer):Developer{
+  return new Developer();
+})
+// Developer -> Developer에다가 Person -> Developer를 할당 하는 경우
+tellme(function pToD(d:Person): Developer{
+  return new Developer();
+})
+// Developer -> Developer에다가 StartupDeveloper->Developer를 할당 하는 경우
+// tellme(function sToD(d:StartupDeveloper):Developer{
+//   return new Developer();
+// }) 
+
