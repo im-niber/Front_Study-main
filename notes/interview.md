@@ -70,3 +70,87 @@ WEB APIs의 백그라운드 공간으로 들어가 처리
   </url>
  </urlset>
 ```
+---
+
+## 실행컨텍스트
+
+함수가 실행되는 환경
+
+- Scope chain = execution context chain
+- Lexical environment = lexical scope
+- Environment record : 변수의 값
+- Outer environment record : 위쪽 변수, 함수
+
+실행컨텍스트는 3가지가 있다
+
+- Global execution context = Global Object(GO)
+  - this object
+  - window object
+- Function execution context = Activation Object(AO)
+
+- GO : 빌트인객체(MATH,STRING 등)과 BOM, DOM, 전역변수
+- AO : 함수선언, 매개변수, 변수
+
+### 단계
+
+#### Creation phase : 생성단계
+  - GO, AO, this 형성
+  - Scopechain(outer scope참조 : 변수 쉐도잉발생)
+  - 이 때문에 호이스팅 가능, 값이 들어가 있지 않는 초기값(var는 선언과 초기화 let, const는 선언만)
+
+#### Execution phase : 실행단계
+  - GO, AO, this 할당
+  - 값이 할당
+  - this는 함수호출패턴 or lexical scope에 따라 값이 정해짐
+
+---
+
+## JS의 모듈화
+
+자바스크립트 모듈화 ESM과 CJS의 특징, 차이, 혼용방법
+
+- ES6module = ECMAScript module = ESM
+- CommonJs = CJS
+
+### 모듈화 ?
+캡슐화, private public 나눌 수 있고 유지보수성, 테스트하기 + 수정 용이 레이지 로드를 할 수 있는 근간
+
+### ESM 모듈화 방법
+
+모듈화는 먼저 package.json에 `"type" : "module"` 로 설정을 해줘야함 
+
+```js
+// a.js
+export const s1 = 1
+export const s2 = 2
+export const s3 = 3
+// b.js
+import {s1, s2, s3} from './a.js'
+console.log(s1, s2, s3)
+```
+
+### CJS 모듈화 방법
+```js
+// a.js
+exports.sayhi = name => `${name} hi`
+exports.hello = name => {
+  console.log(this.sayhi("MEE"))
+  return `${name} hello`
+}
+exports.value = 1
+//b.js
+const a = require('./a/js')
+console.log(a.hello("HEE"))
+console.log(a.value)
+```
+
+## 브라우저 렌더링과 가상돔
+
+### 브라우저 렌더링(화면의 구성 과정)
+
+주소창에 www.naver.com을 입력했을 때 일어나는 과정
+
+1. 사용자 인터페이스(URL)
+2. 브라우저 엔진
+3. 렌더링 엔진
+4. 
